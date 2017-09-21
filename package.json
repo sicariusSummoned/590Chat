@@ -1,0 +1,29 @@
+{
+  "name": "websockets-chat-starter",
+  "version": "1.0.0",
+  "engines": {
+    "node": "8.5.0",
+    "npm": "5.3.0"
+  },
+  "description": "Chat Server MkI",
+  "main": "./src/server.js",
+  "scripts": {
+    "start": "node ./src/server.js",
+    "pretest": "eslint ./src --fix",
+    "test": "echo \"Tests Completed!\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sicariusSummoned/websockets-chat-starter.git"
+  },
+  "author": "James Taggart",
+  "license": "ISC",
+  "dependencies": {
+    "socket.io": "^2.0.3"
+  },
+  "devDependencies": {
+    "eslint": "^4.7.1",
+    "eslint-config-airbnb": "^15.1.0",
+    "eslint-plugin-import": "^2.7.0"
+  }
+}
