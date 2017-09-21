@@ -61,10 +61,12 @@ const onMsg = (sock) => {
   const socket = sock;
 
   const fuck = 'fuck';
+  const Fuck = 'Fuck';
 
   socket.on('msgToServer', (data) => {
-    if (data.msg.indexOf(fuck) !== -1) {
+    if (data.msg.indexOf(fuck) !== -1 || data.msg.indexOf(fuck) !==-1) {
       const string = data.msg.replace('fuck', '****');
+      string = string.replace('Fuck', '****');
       io.sockets.in('room1').emit('msg', {
         name: socket.name,
         msg: string,
