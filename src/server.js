@@ -91,10 +91,11 @@ const onMe = (sock) => {
 
 const onRoll = (sock) => {
   const socket = sock;
-  const randomNum = Math.floor(Math.random() * 20);
 
 
   socket.on('roll', () => {
+    const randomNum = Math.floor(Math.random() * 20);
+
     io.sockets.in('room1').emit('action', {
       name: socket.name,
       msg: ` Rolled a ${randomNum}!`,
