@@ -59,25 +59,46 @@ const onJoined = (sock) => {
 
 const onMsg = (sock) => {
   const socket = sock;
-
-  const fuck = 'fuck';
-  const Fuck = 'Fuck';
-
   socket.on('msgToServer', (data) => {
-    if (data.msg.indexOf(fuck) !== -1 || data.msg.indexOf(Fuck) !==-1) {
-      let string = data.msg.replace('fuck', '****');
-      string = string.replace('Fuck', '****');
-      io.sockets.in('room1').emit('msg', {
-        name: socket.name,
-        msg: string,
-      });
-    } else {
-      io.sockets.in('room1').emit('msg', {
-        name: socket.name,
-        msg: data.msg,
-      });
-    }
-    // console.dir(data);
+    io.sockets.in('room1').emit('msg', {
+      name: socket.name,
+      msg: data.msg,
+    });
+  });
+};
+
+const onSwear = (sock) => {
+  const socket = sock;
+
+  socket.on('swear', () => {
+    io.sockets.in('room1').emit('action', {
+      name: socket.name,
+      msg: ' Tried to swear!',
+    });
+  });
+};
+
+const onMe = (sock) => {
+  const socket = sock;
+
+  socket.on('slashMe', (data) => {
+    io.sockets.in('room1').emit('action', {
+      name: socket.name,
+      msg: data.msg,
+    });
+  });
+};
+
+const onRoll = (sock) => {
+  const socket = sock;
+  const randomNum = Math.floor(Math.random() * 20);
+
+
+  socket.on('roll', () => {
+    io.sockets.in('room1').emit('action', {
+      name: socket.name,
+      msg: ` Rolled a ${randomNum}!`,
+    });
   });
 };
 
@@ -109,6 +130,9 @@ io.sockets.on('connection', (socket) => {
   onJoined(socket);
   onMsg(socket);
   onDisconnect(socket);
+  onMe(socket);
+  onRoll(socket);
+  onSwear(socket);
 });
 
 console.log('Websocket Server Started');

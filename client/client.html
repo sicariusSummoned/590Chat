@@ -23,11 +23,11 @@
 
 
 
-    const updateChat = (data) => {      
+    const printChat = (data) => {      
       chat.value += `\n${data.name}: ${data.msg}`;
     };
 
-    const updateChatMe = (data) => {
+    const printAction = (data) => {
       chat.value += `\n${data.name}${data.msg}`;
     }
   
@@ -50,8 +50,12 @@
       
       socket.on('msg', (data) => {
         console.dir(data);
-        updateChat(data);
+        printChat(data);
       });
+      socket.on('action',(data) =>{
+        console.dir(data);
+        printAction(data);
+      })
     };
 
     const sendMessage = (e) => {
@@ -63,9 +67,20 @@
         return false;
       }
       
-      socket.emit('msgToServer', {msg: messageToSend});
+      let string = messageToSend.toLowerCase();
       
-
+      
+      if(string.includes("fuck") || string.includes("shit")|| string.includes("ass")){
+        socket.emit('swear',{});
+      }else if(string.includes("/me")){
+        messageToSend = messageToSend.replace("/me","");
+        socket.emit('slashMe',{msg:messageToSend});
+      }else if(string.includes("/roll")){
+        messageToSend = messageToSend.replace("/me","");
+        socket.emit('roll', {});
+      }else{
+        socket.emit('msgToServer', {msg: messageToSend});
+      }
       
     };
 
